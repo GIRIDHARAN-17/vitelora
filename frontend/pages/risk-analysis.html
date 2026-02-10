@@ -1,0 +1,149 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Risk Analysis | Vitelora</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link
+        href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&family=Outfit:wght@500;700;800&display=swap"
+        rel="stylesheet">
+    <link rel="stylesheet" href="../css/style.css">
+</head>
+
+<body>
+    <nav class="navbar">
+        <a href="../index.html" class="brand">Vitelora</a>
+        <ul class="nav-links">
+            <li><a href="about.html" class="nav-link">About Us</a></li>
+            <li><a href="features.html" class="nav-link">Features</a></li>
+            <li><a href="login.html" class="nav-link">Login</a></li>
+            <li><a href="signup.html" class="btn-cta">Sign Up</a></li>
+        </ul>
+    </nav>
+    <header class="hero">
+        <h1 class="animate">Risk Analysis Engine</h1>
+        <p class="animate delay-1">Comprehensive risk assessment models for early threat detection.</p>
+        <div class="grid animate delay-2" style="margin-top: 2rem; width: 100%; max-width: 1000px;">
+            <div class="card">
+                <h3>Regional Risk</h3>
+                <p>High-resolution maps identifying areas with elevated health risks based on environmental and social
+                    factors.</p>
+            </div>
+            <div class="card">
+                <h3>Personalized Risk</h3>
+                <p>Individual risk scoring based on genetic markers, lifestyle data, and historical health records.</p>
+            </div>
+        </div>
+    </header>
+
+    <!-- Clinical Risk Dashboard -->
+    <section class="dashboard-section">
+        <h2 class="section-title animate delay-3" style="text-align: left; margin-bottom: 2rem;">Community Intelligence
+            Dashboard</h2>
+
+        <div class="dashboard-grid animate delay-4">
+            <!-- Feature 1 & 4: Live Community Risk & Trends -->
+            <div class="dashboard-card">
+                <h3><span class="card-icon" style="font-size: 1.2rem; margin: 0;">📡</span> Live Community Risk</h3>
+                <div class="risk-level risk-high">HIGH</div>
+                <p style="color: var(--text-muted); font-size: 0.9rem;">Outbreak probability > 85% in current postcode.
+                </p>
+                <div class="trend-chart">
+                    <!-- Simple CSS bar chart -->
+                    <div class="bar" style="height: 30%;"></div>
+                    <div class="bar" style="height: 45%;"></div>
+                    <div class="bar" style="height: 40%;"></div>
+                    <div class="bar" style="height: 60%;"></div>
+                    <div class="bar" style="height: 55%;"></div>
+                    <div class="bar" style="height: 80%;"></div>
+                    <div class="bar" style="height: 95%; background: var(--accent);"></div>
+                </div>
+                <div
+                    style="margin-top: 0.5rem; display: flex; justify-content: space-between; font-size: 0.8rem; color: var(--text-muted);">
+                    <span>7 Days Ago</span>
+                    <span>Today</span>
+                </div>
+
+                <!-- Feature 6: Alert Sensitivity -->
+                <div class="slider-container" style="margin-top: 2rem;">
+                    <h3 style="margin-bottom: 0.5rem;">Alert Sensitivity</h3>
+                    <input type="range" min="1" max="100" value="80">
+                    <div
+                        style="display: flex; justify-content: space-between; font-size: 0.8rem; color: var(--text-muted); margin-top: 0.5rem;">
+                        <span>Conservative</span>
+                        <span>Aggressive</span>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Feature 2 & 3: NEWS2 + Context -->
+            <div class="dashboard-card">
+                <h3><span class="card-icon" style="font-size: 1.2rem; margin: 0;">🩺</span> Clinical Decision Support
+                </h3>
+
+                <div class="toggle-container" style="margin-bottom: 1.5rem;">
+                    <div class="toggle-switch"></div>
+                    <span style="font-size: 0.9rem; font-weight: 600;">Community Context: <span
+                            style="color: var(--primary);">ON</span></span>
+                </div>
+
+                <div class="panel-grid">
+                    <div class="score-row">
+                        <span style="color: var(--text-muted);">Standard NEWS2</span>
+                        <span class="score-value">3 (Low)</span>
+                    </div>
+                    <div class="score-row" style="background: rgba(255, 0, 85, 0.1); border: 1px solid var(--accent);">
+                        <span style="color: var(--accent);">With Context</span>
+                        <span class="score-value" style="color: var(--accent);">6 (High) <span
+                                class="risk-badge bg-high">Risk Adjusted</span></span>
+                    </div>
+                </div>
+
+                <!-- Explainable Risk -->
+                <div style="margin-top: 1.5rem;">
+                    <h4 style="font-size: 1rem; margin-bottom: 1rem; color: var(--text-main);">Why did risk change?</h4>
+                    <ul class="advisory-list">
+                        <li class="advisory-item">⚠️ Local viral load in wastewater +400% (48h)</li>
+                        <li class="advisory-item">⚠️ 3 confirmed clusters within 5km radius</li>
+                    </ul>
+                </div>
+            </div>
+
+            <!-- Feature 5: Advisory Actions -->
+            <div class="dashboard-card">
+                <h3><span class="card-icon" style="font-size: 1.2rem; margin: 0;">📋</span> Clinical Advisory</h3>
+                <ul class="advisory-list">
+                    <li class="advisory-item">
+                        <span class="advisory-icon">➤</span>
+                        <span>Consider PCR test despite low basic symptoms.</span>
+                    </li>
+                    <li class="advisory-item">
+                        <span class="advisory-icon">➤</span>
+                        <span>Isolate patient pending 4-hour rapid panel results.</span>
+                    </li>
+                    <li class="advisory-item">
+                        <span class="advisory-icon">➤</span>
+                        <span>Check recent travel history to Zone B (Outbreak Hotspot).</span>
+                    </li>
+                </ul>
+                <button class="btn-cta" style="width: 100%; margin-top: 2rem; border: none; font-size: 0.9rem;">View
+                    Full Protocol</button>
+            </div>
+        </div>
+
+        <!-- Feature 7: Trust & Safety -->
+        <div class="disclaimer-box animate delay-4">
+            <strong>Decision Support Disclaimer:</strong> This dashboard provides probabilistic risk assessments based
+            on aggregated community data. It is intended to support, not replace, clinical judgment. Final diagnostic
+            decisions remain with the attending physician. <a href="#"
+                style="text-decoration: underline; color: var(--text-muted);">Learn about our explainability
+                standards.</a>
+        </div>
+    </section>
+    <script src="../js/main.js"></script>
+</body>
+
+</html>
