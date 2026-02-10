@@ -7,10 +7,11 @@ backend/viteloravenv/
 __pycache__/
 *.pyc
 
-# OS files
+# Node
+node_modules/
+
+# OS / IDE
 .DS_Store
 Thumbs.db
-
-# IDE
 .vscode/
 .idea/
