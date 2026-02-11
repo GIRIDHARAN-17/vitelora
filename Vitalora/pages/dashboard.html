@@ -1,0 +1,366 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Dashboard | Vitalora</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link
+        href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&family=Outfit:wght@500;700;800&display=swap"
+        rel="stylesheet">
+    <link rel="stylesheet" href="../css/style.css">
+    <style>
+        .dashboard-container {
+            max-width: 1400px;
+            margin: 8rem auto 4rem;
+            padding: 0 5%;
+        }
+
+        .welcome-header {
+            margin-bottom: 3rem;
+            text-align: center;
+        }
+
+        /* Doctor View Styles */
+        .patient-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+            gap: 2rem;
+            display: none;
+            /* Hidden by default */
+        }
+
+        .patient-grid.active {
+            display: grid;
+        }
+
+        .patient-card {
+            background: var(--bg-card);
+            border: 1px solid var(--glass-border);
+            border-radius: 16px;
+            padding: 1.5rem;
+            cursor: pointer;
+            transition: var(--transition);
+        }
+
+        .patient-card:hover {
+            border-color: var(--primary);
+            transform: translateY(-5px);
+            box-shadow: 0 10px 30px rgba(0, 242, 255, 0.1);
+        }
+
+        .patient-id {
+            color: var(--primary);
+            font-size: 0.9rem;
+            margin-bottom: 0.5rem;
+            font-weight: 600;
+        }
+
+        .patient-name {
+            font-size: 1.2rem;
+            font-weight: 700;
+            margin-bottom: 1rem;
+        }
+
+        .patient-meta {
+            display: flex;
+            justify-content: space-between;
+            color: var(--text-muted);
+            font-size: 0.9rem;
+        }
+
+        /* Admin View Styles */
+        .admin-dashboard {
+            display: none;
+            /* Hidden by default */
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 2rem;
+        }
+
+        .admin-dashboard.active {
+            display: grid;
+        }
+
+        .admin-card {
+            background: var(--bg-card);
+            border: 1px solid var(--glass-border);
+            border-radius: 20px;
+            padding: 3rem;
+            text-align: center;
+            transition: var(--transition);
+            cursor: pointer;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            min-height: 250px;
+        }
+
+        .admin-card:hover {
+            border-color: var(--secondary);
+            background: rgba(112, 0, 255, 0.05);
+            transform: translateY(-5px);
+        }
+
+        .admin-icon {
+            font-size: 3rem;
+            margin-bottom: 1.5rem;
+            color: var(--secondary);
+        }
+
+        /* Admin Inner Pages (Hidden by default) */
+        .admin-section {
+            display: none;
+        }
+
+        .admin-section.active {
+            display: block;
+            animation: fadeInUp 0.5s ease-out;
+        }
+
+        .back-btn {
+            background: transparent;
+            border: none;
+            color: var(--text-muted);
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            margin-bottom: 2rem;
+            font-size: 1rem;
+            transition: var(--transition);
+        }
+
+        .back-btn:hover {
+            color: var(--primary);
+        }
+
+        /* Forms */
+        .form-container {
+            background: var(--bg-card);
+            border: 1px solid var(--glass-border);
+            border-radius: 20px;
+            padding: 2rem;
+            max-width: 600px;
+            margin: 0 auto;
+        }
+
+        .input-group {
+            margin-bottom: 1.5rem;
+        }
+
+        .input-group label {
+            display: block;
+            margin-bottom: 0.5rem;
+            color: var(--text-muted);
+        }
+
+        .input-group input,
+        .input-group select {
+            width: 100%;
+            padding: 0.8rem;
+            background: rgba(255, 255, 255, 0.05);
+            border: 1px solid var(--glass-border);
+            border-radius: 8px;
+            color: white;
+            font-family: var(--font-body);
+        }
+
+        /* Doctor List */
+        .doctor-list {
+            display: grid;
+            gap: 1rem;
+            margin-top: 2rem;
+        }
+
+        .doctor-item {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            background: rgba(255, 255, 255, 0.03);
+            padding: 1rem;
+            border-radius: 12px;
+            border: 1px solid transparent;
+        }
+
+        .doctor-item:hover {
+            border-color: var(--glass-border);
+        }
+
+        /* Patient Detail Modal */
+        .patient-modal-content {
+            text-align: left;
+        }
+
+        .patient-detail-group {
+            margin-bottom: 1.5rem;
+            padding-bottom: 1rem;
+            border-bottom: 1px solid var(--glass-border);
+        }
+
+        .patient-detail-group:last-child {
+            border-bottom: none;
+        }
+
+        .detail-label {
+            color: var(--text-muted);
+            font-size: 0.9rem;
+            margin-bottom: 0.3rem;
+        }
+
+        .detail-value {
+            font-size: 1.1rem;
+            font-weight: 500;
+        }
+    </style>
+</head>
+
+<body>
+    <nav class="navbar">
+        <a href="../index.html" class="brand">Vitalora</a>
+        <ul class="nav-links">
+            <li><a href="#" id="logout-btn" class="nav-link" style="color: var(--accent);">Logout</a></li>
+        </ul>
+    </nav>
+
+    <div class="dashboard-container">
+        <div class="welcome-header">
+            <h1 id="user-greeting" class="animate">Welcome</h1>
+            <p id="user-role" class="animate delay-1" style="color: var(--text-muted);">Dashboard Access</p>
+        </div>
+
+        <!-- DOCTOR VIEW: PATIENT GRID -->
+        <div id="doctor-view" class="patient-grid">
+            <!-- Patient cards injected here -->
+        </div>
+
+        <!-- ADMIN VIEW: MAIN MENU -->
+        <div id="admin-view" class="admin-dashboard">
+            <div class="admin-card" onclick="showAdminSection('add-user')">
+                <div class="admin-icon">👨‍⚕️</div>
+                <h3>Add User</h3>
+                <p style="color: var(--text-muted);">Manage doctor profiles and specializations.</p>
+            </div>
+            <div class="admin-card" onclick="showAdminSection('add-patient')">
+                <div class="admin-icon">🏥</div>
+                <h3>Add Patient</h3>
+                <p style="color: var(--text-muted);">Register new patient records.</p>
+            </div>
+        </div>
+
+        <!-- ADMIN VIEW: MANAGE DOCTORS -->
+        <div id="admin-add-user" class="admin-section">
+            <button class="back-btn" onclick="showAdminMenu()">← Back to Dashboard</button>
+            <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 4rem;">
+                <div>
+                    <h2 class="section-title" style="text-align: left; font-size: 2rem;">Add New User (Doctor)</h2>
+                    <form id="add-doctor-form" class="form-container">
+                        <div class="input-group">
+                            <label>Full Name</label>
+                            <input type="text" id="doc-name" required placeholder="Dr. John Doe">
+                        </div>
+                        <div class="input-group">
+                            <label>Email Address</label>
+                            <input type="email" id="doc-email" required placeholder="john@vitalora.com">
+                        </div>
+                        <div class="input-group">
+                            <label>Specialization</label>
+                            <select id="doc-spec">
+                                <option value="General">General Practice</option>
+                                <option value="Virology">Virology</option>
+                                <option value="Epidemiology">Epidemiology</option>
+                                <option value="Cardiology">Cardiology</option>
+                            </select>
+                        </div>
+                        <button type="submit" class="btn-cta"
+                            style="width: 100%; border: none; cursor: pointer;">Register Doctor</button>
+                    </form>
+                </div>
+
+                <div>
+                    <h3 style="margin-bottom: 2rem;">Active Personnel</h3>
+                    <div id="doctor-list" class="doctor-list">
+                        <!-- Doctor items injected here -->
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- ADMIN VIEW: ADD PATIENT -->
+        <div id="admin-add-patient" class="admin-section">
+            <button class="back-btn" onclick="showAdminMenu()">← Back to Dashboard</button>
+            <div style="max-width: 600px; margin: 0 auto;">
+                <h2 class="section-title" style="font-size: 2rem;">Register New Patient</h2>
+                <form id="add-patient-form" class="form-container">
+                    <div class="input-group">
+                        <label>Patient Full Name</label>
+                        <input type="text" required placeholder="Jane Smith">
+                    </div>
+                    <div class="input-group">
+                        <label>Patient ID (Auto-generated if empty)</label>
+                        <input type="text" placeholder="P-XXXX">
+                    </div>
+                    <div class="input-group">
+                        <label>Room Number</label>
+                        <input type="text" required placeholder="ICU-04">
+                    </div>
+                    <div class="input-group">
+                        <label>Condition Summary</label>
+                        <input type="text" required placeholder="Stable, awaiting results">
+                    </div>
+                    <button type="submit" class="btn-cta" style="width: 100%; border: none; cursor: pointer;">Admit
+                        Patient</button>
+                </form>
+            </div>
+        </div>
+
+    </div>
+
+    <!-- PATIENT DETAILS MODAL -->
+    <div class="modal-overlay" id="patient-modal">
+        <div class="modal">
+            <h2 id="modal-p-name" style="margin-bottom: 0.5rem;">Patient Name</h2>
+            <p id="modal-p-id" style="color: var(--primary); margin-bottom: 2rem;">ID: #12345</p>
+
+            <div class="patient-modal-content">
+                <div class="patient-detail-group">
+                    <div class="detail-label">Room Number</div>
+                    <div class="detail-value" id="modal-p-room">ICU-01</div>
+                </div>
+                <div class="patient-detail-group">
+                    <div class="detail-label">Condition</div>
+                    <div class="detail-value" id="modal-p-condition">Critical - Viral Load High</div>
+                </div>
+                <div class="patient-detail-group">
+                    <div class="detail-label">Assigned Doctor</div>
+                    <div class="detail-value" id="modal-p-doc">Dr. Strange</div>
+                </div>
+                <div class="patient-detail-group">
+                    <div class="detail-label">Admission Date</div>
+                    <div class="detail-value" id="modal-p-date">2026-02-10</div>
+                </div>
+            </div>
+
+            <button class="btn-cta" style="margin-top: 2rem; border: none; cursor: pointer;"
+                onclick="closeModal()">Close Record</button>
+        </div>
+    </div>
+
+    <footer class="footer">
+        <div class="footer-content">
+            <div class="footer-brand">
+                <div class="brand">Vitalora</div>
+                <p>Predicting Tomorrow's Health, Today.</p>
+            </div>
+        </div>
+        <div class="footer-bottom">
+            <p>&copy; 2026 Vitalora Health Intelligence. All rights reserved.</p>
+        </div>
+    </footer>
+
+    <script src="../js/dashboard.js"></script>
+</body>
+
+</html>

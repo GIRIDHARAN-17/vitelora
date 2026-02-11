@@ -32,13 +32,13 @@ document.addEventListener('DOMContentLoaded', () => {
 
     // Modal Logic
     const modal = document.getElementById('role-modal');
-    const authButtons = document.querySelectorAll('.auth-trigger'); // Add this class to Login/Signup links
+    const authButtons = document.querySelectorAll('.auth-trigger'); // Add this class to Login links
     let targetPage = '';
 
     authButtons.forEach(btn => {
         btn.addEventListener('click', (e) => {
             e.preventDefault();
-            targetPage = btn.dataset.target; // 'login' or 'signup'
+            targetPage = btn.dataset.target; // 'login'
             modal.classList.add('active');
         });
     });
@@ -54,7 +54,7 @@ document.addEventListener('DOMContentLoaded', () => {
     document.querySelectorAll('.btn-role').forEach(btn => {
         btn.addEventListener('click', () => {
             const role = btn.dataset.role;
-            const page = targetPage === 'signup' ? 'pages/signup.html' : 'pages/login.html';
+            const page = 'pages/login.html';
             window.location.href = `${page}?role=${role}`;
         });
     });

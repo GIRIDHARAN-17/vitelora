@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Vitalora | Advanced Health Intelligence</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link
+        href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&family=Outfit:wght@500;700;800&display=swap"
+        rel="stylesheet">
+    <link rel="stylesheet" href="../css/style.css">
+</head>
+
+<body>
+    <nav class="navbar">
+        <a href="../index.html" class="brand">Vitalora</a>
+        <ul class="nav-links">
+            <li><a href="about.html" class="nav-link">About Us</a></li>
+            <li><a href="features.html" class="nav-link">Features</a></li>
+            <li><a href="login.html" class="nav-link">Login</a></li>
+
+        </ul>
+    </nav>
+    <header class="hero">
+        <div style="display: flex; flex-direction: column; width: 100%;">
+            <h1 class="animate">Pattern Predictions</h1>
+            <p class="animate delay-1">AI-driven recognition of disease transmission patterns.</p>
+            <div class="grid pattern-grid animate delay-2" style="width: 100%; max-width: 1200px;">
+                <div class="card" onclick="showAnalysis('linear', this)">
+                    <h3>Linear Progression</h3>
+                    <p>Predicts steady spread in low-density population centers based on historical data.</p>
+                </div>
+                <div class="card" onclick="showAnalysis('exponential', this)">
+                    <h3>Exponential Spikes</h3>
+                    <p>Identifies potential super-spreader events before they occur.</p>
+                </div>
+                <div class="card" onclick="showAnalysis('seasonal', this)">
+                    <h3>Seasonal Cyclicity</h3>
+                    <p>Adjusts models based on climatic variables and seasonal human behavior.</p>
+                </div>
+            </div>
+
+            <!-- Dynamic Analysis Panel -->
+            <section id="analysis-display" class="analysis-panel animate delay-3"
+                style="width: 100%; max-width: 1200px;">
+                <!-- Content injected via JS -->
+                <div style="text-align: center; color: var(--text-muted);">
+                    <p>Select a pattern type above to view analysis.</p>
+                </div>
+            </section>
+        </div>
+    </header>
+    <script src="../js/main.js"></script>
+</body>
+
+</html>
