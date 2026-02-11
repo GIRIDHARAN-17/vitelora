@@ -4,6 +4,8 @@ from model import Signup,Login
 from database import users_collection
 from fastapi.middleware.cors import CORSMiddleware  
 from security import *
+from security import verify_token
+from fastapi import Depends
 
 app = FastAPI()
 app.add_middleware(
@@ -50,3 +52,19 @@ def login(data: Login):
         "token_type": "bearer",
         "role": user["role"]
     }
+    
+@app.get("/protected")
+def protected_route(user=Depends(verify_token)):
+    return {
+        "message": "Access granted",
+        "user": user
+    }
+def require_admin(user=Depends(verify_token)):
+    if user["role"] != "admin":
+        raise HTTPException(status_code=403, detail="Admin access required")
+    return user
+
+@app.get("/admin")
+def admin_route(user=Depends(require_admin)):
+    return {"message": "Welcome Admin"}
+

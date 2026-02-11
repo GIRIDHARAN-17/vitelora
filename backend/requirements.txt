@@ -4,3 +4,4 @@ pymongo
 python-jose 
 passlib[argon2]
 pydantic[email]
+python-dotenv
