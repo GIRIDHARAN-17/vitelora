@@ -4,7 +4,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Login | Vitelora</title>
+    <title>Vitalora | Advanced Health Intelligence</title>
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link
@@ -53,14 +53,14 @@
 
 <body>
     <nav class="navbar">
-        <a href="../index.html" class="brand">Vitelora</a>
+        <a href="../index.html" class="brand">Vitalora</a>
         <ul class="nav-links">
             <li><a href="about.html" class="nav-link">About Us</a></li>
             <li><a href="features.html" class="nav-link">Features</a></li>
-            <li><a href="signup.html" class="btn-cta">Sign Up</a></li>
+            <li><a href="posts.html" class="nav-link">Post</a></li>
         </ul>
     </nav>
-    <header class="hero">
+    <header class="hero centered-hero">
         <div class="auth-container animate">
             <h2 style="margin-bottom: 2rem; text-align: center;">Welcome Back</h2>
             <form>
@@ -72,11 +72,21 @@
                     <label>Password</label>
                     <input type="password" placeholder="••••••••">
                 </div>
-                <button type="button" class="btn-cta" style="width: 100%; border: none; cursor: pointer;">Login</button>
+                <button type="button" id="login-btn" class="btn-cta"
+                    style="width: 100%; border: none; cursor: pointer;">Login</button>
+                <script>
+                    document.getElementById('login-btn').addEventListener('click', () => {
+                        // Simulate Login
+                        const user = {
+                            name: "Dr. Jane Doe",
+                            role: "Doctor",
+                            email: "jane@example.com"
+                        };
+                        localStorage.setItem('vitalora_user', JSON.stringify(user));
+                        window.location.href = 'posts.html';
+                    });
+                </script>
             </form>
-            <p style="margin-top: 1.5rem; text-align: center; font-size: 0.9rem; color: var(--text-muted);">
-                Don't have an account? <a href="signup.html" style="color: var(--primary);">Sign Up</a>
-            </p>
         </div>
     </header>
     <script src="../js/main.js"></script>

@@ -1,0 +1,239 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Community Posts | Vitalora</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link
+        href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&family=Outfit:wght@500;700;800&display=swap"
+        rel="stylesheet">
+    <link rel="stylesheet" href="../css/style.css">
+    <style>
+        .posts-container {
+            max-width: 800px;
+            margin: 8rem auto 4rem;
+            padding: 0 5%;
+        }
+
+        .create-post-card {
+            background: var(--bg-card);
+            border: 1px solid var(--glass-border);
+            border-radius: 20px;
+            padding: 2rem;
+            margin-bottom: 3rem;
+            display: none;
+            /* Hidden by default, shown via JS if logged in */
+        }
+
+        .create-post-card.active {
+            display: block;
+            animation: fadeInUp 0.5s ease-out;
+        }
+
+        .post-input {
+            width: 100%;
+            background: rgba(255, 255, 255, 0.05);
+            border: 1px solid var(--glass-border);
+            border-radius: 12px;
+            padding: 1rem;
+            color: white;
+            font-family: var(--font-body);
+            resize: vertical;
+            min-height: 100px;
+            margin-bottom: 1rem;
+            transition: var(--transition);
+        }
+
+        .post-input:focus {
+            outline: none;
+            border-color: var(--primary);
+            background: rgba(255, 255, 255, 0.08);
+        }
+
+        .post-actions {
+            display: flex;
+            justify-content: flex-end;
+        }
+
+        .posts-feed {
+            display: flex;
+            flex-direction: column;
+            gap: 2rem;
+        }
+
+        .post-card {
+            background: var(--bg-card);
+            border: 1px solid var(--glass-border);
+            border-radius: 20px;
+            padding: 2rem;
+            transition: var(--transition);
+            position: relative;
+        }
+
+        .post-card:hover {
+            transform: translateY(-5px);
+            border-color: var(--primary);
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
+        }
+
+        .post-header {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 1rem;
+            align-items: flex-start;
+        }
+
+        .post-author {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+        }
+
+        .author-avatar {
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            background: linear-gradient(45deg, var(--primary), var(--secondary));
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            font-weight: 700;
+            color: white;
+            font-size: 1.2rem;
+        }
+
+        .author-info h4 {
+            color: var(--text-main);
+            margin-bottom: 0.2rem;
+        }
+
+        .post-time {
+            font-size: 0.85rem;
+            color: var(--text-muted);
+        }
+
+        .post-content {
+            color: var(--text-muted);
+            line-height: 1.6;
+            margin-bottom: 1.5rem;
+            white-space: pre-wrap;
+        }
+
+        .post-footer {
+            border-top: 1px solid var(--glass-border);
+            padding-top: 1rem;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .post-likes {
+            color: var(--primary);
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            transition: var(--transition);
+        }
+
+        .post-likes:hover {
+            filter: brightness(1.2);
+        }
+
+        .edit-btn {
+            background: transparent;
+            border: 1px solid var(--glass-border);
+            color: var(--text-muted);
+            padding: 0.4rem 1rem;
+            border-radius: 20px;
+            cursor: pointer;
+            transition: var(--transition);
+            font-size: 0.9rem;
+        }
+
+        .edit-btn:hover {
+            background: rgba(255, 255, 255, 0.1);
+            color: white;
+        }
+
+        /* Login Prompt for Guests */
+        .login-prompt {
+            text-align: center;
+            padding: 3rem;
+            background: rgba(112, 0, 255, 0.1);
+            border-radius: 20px;
+            border: 1px solid var(--secondary);
+            margin-bottom: 3rem;
+            display: none;
+        }
+
+        .login-prompt.active {
+            display: block;
+        }
+    </style>
+</head>
+
+<body>
+    <nav class="navbar">
+        <a href="../index.html" class="brand">Vitalora</a>
+        <ul class="nav-links">
+            <li><a href="../index.html#about" class="nav-link">About Us</a></li>
+            <li><a href="../index.html#features" class="nav-link">Features</a></li>
+            <li id="auth-item"><a href="login.html" class="nav-link">Login</a></li>
+            <li><a href="posts.html" class="nav-link" style="color: var(--primary);">Post</a></li>
+        </ul>
+    </nav>
+
+    <div class="posts-container">
+        <div class="header-section" style="text-align: center; margin-bottom: 4rem;">
+            <h1 class="animate">Community Insights</h1>
+            <p class="animate delay-1" style="color: var(--text-muted); max-width: 600px; margin: 1rem auto;">
+                Share your findings, ask questions, and collaborate with other health intelligence experts.
+            </p>
+        </div>
+
+        <!-- Create Post Section (Logged In) -->
+        <div id="create-post-section" class="create-post-card">
+            <h3 style="margin-bottom: 1.5rem;">Create a Post</h3>
+            <textarea id="post-content" class="post-input"
+                placeholder="What's on your mind? Share an insight..."></textarea>
+            <div class="post-actions">
+                <button id="submit-post" class="btn-cta">Post Insight</button>
+            </div>
+        </div>
+
+        <!-- Login Prompt (Guest) -->
+        <div id="guest-prompt" class="login-prompt">
+            <h3 style="margin-bottom: 1rem;">Join the Conversation</h3>
+            <p style="margin-bottom: 1.5rem; color: var(--text-muted);">
+                Log in to share your own insights and connect with the community.
+            </p>
+            <a href="login.html" class="btn-cta">Log In to Post</a>
+        </div>
+
+        <!-- Posts Feed -->
+        <div id="posts-feed" class="posts-feed">
+            <!-- Posts will be injected here via JS -->
+        </div>
+    </div>
+
+    <!-- Footer -->
+    <footer class="footer">
+        <div class="footer-content">
+            <div class="footer-brand">
+                <div class="brand">Vitalora</div>
+                <p>Predicting Tomorrow's Health, Today.</p>
+            </div>
+            <div class="footer-bottom">
+                <p>&copy; 2026 Vitalora Health Intelligence. All rights reserved.</p>
+            </div>
+        </div>
+    </footer>
+
+    <script src="../js/posts.js"></script>
+</body>
+
+</html>

@@ -67,6 +67,7 @@ a {
     font-size: 1.8rem;
     font-weight: 800;
     background: linear-gradient(45deg, var(--primary), var(--secondary));
+    background-clip: text;
     -webkit-background-clip: text;
     -webkit-text-fill-color: transparent;
     letter-spacing: -1px;
@@ -106,6 +107,7 @@ a {
 }
 
 .btn-cta {
+    display: inline-block;
     padding: 0.8rem 1.5rem;
     background: linear-gradient(45deg, var(--secondary), var(--accent));
     border-radius: 50px;
@@ -121,20 +123,29 @@ a {
 
 /* Hero Section */
 .hero {
-    min-height: 70vh;
+    min-height: 80vh;
     display: flex;
-    flex-direction: column;
-    justify-content: center;
+    flex-direction: row;
+    justify-content: space-between;
     align-items: center;
-    text-align: center;
+    text-align: left;
     padding: 8rem 5% 4rem;
     position: relative;
+    gap: 4rem;
+    max-width: 1400px;
+    margin: 0 auto;
+}
+
+.hero-content {
+    flex: 1;
+    max-width: 600px;
 }
 
 .hero h1 {
     font-size: 4rem;
     margin-bottom: 1.5rem;
     background: linear-gradient(to right, #fff, #aebec2);
+    background-clip: text;
     -webkit-background-clip: text;
     -webkit-text-fill-color: transparent;
 }
@@ -206,6 +217,7 @@ a {
     font-size: 2.5rem;
     margin-bottom: 1.5rem;
     background: linear-gradient(45deg, var(--primary), var(--secondary));
+    background-clip: text;
     -webkit-background-clip: text;
     -webkit-text-fill-color: transparent;
 }
@@ -282,6 +294,17 @@ a {
     .nav-links {
         display: none;
         /* Mobile menu implementation left for future enhancement if needed */
+    }
+
+    .hero {
+        flex-direction: column;
+        text-align: center;
+        padding-top: 6rem;
+        gap: 2rem;
+    }
+
+    .hero-content {
+        max-width: 100%;
     }
 
     .hero h1 {
@@ -373,15 +396,25 @@ html {
     color: white;
 }
 
+.centered-hero {
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    text-align: center;
+}
+
 /* Glowing Image Effects */
 .glow-img-container {
     position: relative;
     animation: float 6s ease-in-out infinite;
+    flex: 1;
+    display: flex;
+    justify-content: center;
 }
 
 .glow-img {
     width: 100%;
-    max-width: 500px;
+    max-width: 300px;
     border-radius: 20px;
     filter: drop-shadow(0 0 20px rgba(0, 242, 255, 0.4));
     transition: var(--transition);
@@ -420,12 +453,17 @@ section {
 
 .about-content {
     flex: 1;
+    padding-top: 3rem;
 }
 
 .about-image {
     flex: 1;
     display: flex;
     justify-content: center;
+}
+
+.about-image .glow-img {
+    max-width: 400px;
 }
 
 @media(max-width: 768px) {
@@ -701,7 +739,7 @@ input[type=range]::-webkit-slider-runnable-track {
     }
 
 }
-}
+
 
 /* Pattern Recognition Interactive Styles */
 .pattern-grid .card {

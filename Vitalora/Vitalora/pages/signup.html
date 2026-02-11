@@ -4,7 +4,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Sign Up | Vitelora</title>
+    <title>Vitalora | Advanced Health Intelligence</title>
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link
@@ -53,16 +53,17 @@
 
 <body>
     <nav class="navbar">
-        <a href="../index.html" class="brand">Vitelora</a>
+        <a href="../index.html" class="brand">Vitalora</a>
         <ul class="nav-links">
             <li><a href="about.html" class="nav-link">About Us</a></li>
             <li><a href="features.html" class="nav-link">Features</a></li>
             <li><a href="login.html" class="nav-link">Login</a></li>
+            <li><a href="posts.html" class="nav-link">Post</a></li>
         </ul>
     </nav>
     <header class="hero">
         <div class="auth-container animate">
-            <h2 style="margin-bottom: 2rem; text-align: center;">Join Vitelora</h2>
+            <h2 style="margin-bottom: 2rem; text-align: center;">Join Vitalora</h2>
             <form>
                 <div class="form-group">
                     <label>Full Name</label>
@@ -76,8 +77,21 @@
                     <label>Password</label>
                     <input type="password" placeholder="••••••••">
                 </div>
-                <button type="button" class="btn-cta" style="width: 100%; border: none; cursor: pointer;">Create
+                <button type="button" id="signup-btn" class="btn-cta"
+                    style="width: 100%; border: none; cursor: pointer;">Create
                     Account</button>
+                <script>
+                    document.getElementById('signup-btn').addEventListener('click', () => {
+                        // Simulate Signup
+                        const user = {
+                            name: "New Member",
+                            role: "Researcher",
+                            email: "new@example.com"
+                        };
+                        localStorage.setItem('vitalora_user', JSON.stringify(user));
+                        window.location.href = 'posts.html';
+                    });
+                </script>
             </form>
             <p style="margin-top: 1.5rem; text-align: center; font-size: 0.9rem; color: var(--text-muted);">
                 Already have an account? <a href="login.html" style="color: var(--primary);">Login</a>
