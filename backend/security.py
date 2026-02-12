@@ -1,6 +1,5 @@
 # security.py
 from passlib.context import CryptContext
-from jose import jwt
 from datetime import datetime, timedelta
 from fastapi import Depends, HTTPException, status 
 from fastapi.security import HTTPBearer, HTTPAuthorizationCredentials
@@ -40,7 +39,7 @@ def verify_password(password, hashed):
 
 def create_token(data: dict):
     to_encode = data.copy()
-    to_encode["exp"] = datetime.utcnow() + timedelta(hours=1)
+    to_encode["exp"] = datetime.utcnow() + timedelta(minutes=ACCESS_TOKEN_EXPIRE_MINUTES)
     return jwt.encode(to_encode, SECRET_KEY, algorithm=ALGORITHM)
 
 def require_admin(user=Depends(verify_token)):
@@ -50,8 +49,6 @@ def require_admin(user=Depends(verify_token)):
             detail="Admin access required"
         )
     return user
-@app.get("/admin")
-def admin_route(user=Depends(require_admin)):
-    return {"message": "Welcome Admin"}
+
 
 
