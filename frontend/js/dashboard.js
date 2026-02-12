@@ -51,6 +51,17 @@ function renderDoctorView() {
     patients.forEach(p => {
         const card = document.createElement('div');
         card.className = 'patient-card';
+
+        // Apply status class
+        const conditionLower = p.condition.toLowerCase();
+        if (conditionLower.includes('critical')) {
+            card.classList.add('status-critical');
+        } else if (conditionLower.includes('observation') || conditionLower.includes('unknown')) {
+            card.classList.add('status-observation');
+        } else if (conditionLower.includes('stable')) {
+            card.classList.add('status-stable');
+        }
+
         card.innerHTML = `
             <div class="patient-id">ID: ${p.id}</div>
             <div class="patient-name">${p.name}</div>
