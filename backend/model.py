@@ -1,19 +1,21 @@
 from unicodedata import name
 from pydantic import BaseModel, EmailStr
-from typing import Literal
+from typing import Literal,Optional
 class Login(BaseModel):
     email: EmailStr
     password: str
     role: str
 
-class create_user(BaseModel):
+class admin_add_user(BaseModel):
+    full_name : str
     email : EmailStr
     password : str
-    role : Literal["doctor", "admin"]
-
+    role : str
+    specialization : Optional[Literal["General Practice","Virology","Epidemiology","Cardiology"]] = None
 class patient(BaseModel):
-    name : str
+    full_name : str
     patient_id : str
     room_no : str
     condition : str
+    doctor_name : str
     doctor_email : EmailStr

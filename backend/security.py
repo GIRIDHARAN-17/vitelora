@@ -1,3 +1,4 @@
+
 # security.py
 from passlib.context import CryptContext
 from datetime import datetime, timedelta
@@ -22,12 +23,24 @@ def verify_token(
 
     try:
         payload = jwt.decode(token, SECRET_KEY, algorithms=[ALGORITHM])
+
+        email = payload.get("sub")  
+
+        if email is None:
+            raise HTTPException(
+                status_code=401,
+                detail="Invalid token"
+            )
+        print(payload)
+
         return payload
+
     except JWTError:
         raise HTTPException(
             status_code=status.HTTP_401_UNAUTHORIZED,
             detail="Invalid or expired token",
         )
+
 
 
 pwd_context = CryptContext(schemes=["argon2"], deprecated="auto")
