@@ -19,3 +19,7 @@ class patient(BaseModel):
     condition : str
     doctor_name : str
     doctor_email : EmailStr
+    
+class news_score(BaseModel):
+    patient_id : str
+    news_score : float

@@ -10,9 +10,9 @@ import random
 from collections import deque
 from tensorflow.keras.models import load_model
 import os
+from dotenv import load_dotenv
 
-TIME_STEPS = 30
-FEATURES = 7
+load_dotenv()
 
 app = FastAPI()
 
@@ -23,7 +23,8 @@ app.add_middleware(
     allow_methods=["*"],
     allow_headers=["*"],
 )
-
+TIME_STEPS = int(os.getenv("TIME_STEPS"))
+FEATURES = int(os.getenv("FEATURES"))
 BASE_DIR = os.path.dirname(os.path.abspath(__file__))
 MODEL_PATH = os.path.join(BASE_DIR, "news_lstm_regression.h5")
 SCALER_PATH = os.path.join(BASE_DIR, "news_scaler.save")
@@ -65,8 +66,6 @@ def login(data: Login):
     "token_type": "bearer",
     "role": user["role"],
 }
-
-
     
 
 @app.post("/admin_add_user")
@@ -131,3 +130,4 @@ def auto_stream():
         "latest_vitals": new_row,
         "predicted_news_score": round(float(prediction), 2)
     }
+    
