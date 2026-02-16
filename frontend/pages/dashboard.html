@@ -184,11 +184,14 @@
             font-family: var(--font-body);
         }
 
+<<<<<<< HEAD
         .input-group select option {
             background: #1a1a2e;
             color: white;
         }
 
+=======
+>>>>>>> a6122a424ab0d46f018a4247225dc0a68c4f1db4
         /* Doctor List */
         .doctor-list {
             display: grid;
@@ -287,6 +290,7 @@
                             <input type="email" id="doc-email" required placeholder="john@vitalora.com">
                         </div>
                         <div class="input-group">
+<<<<<<< HEAD
                             <label>Password</label>
                             <input type="password" id="doc-password" required placeholder="••••••••">
                         </div>
@@ -302,6 +306,10 @@
                             <label>Specialization</label>
                             <select id="doc-spec" required>
                                 <option value="" disabled selected>Select Specialization</option>
+=======
+                            <label>Specialization</label>
+                            <select id="doc-spec">
+>>>>>>> a6122a424ab0d46f018a4247225dc0a68c4f1db4
                                 <option value="General">General Practice</option>
                                 <option value="Virology">Virology</option>
                                 <option value="Epidemiology">Epidemiology</option>
@@ -311,6 +319,7 @@
                         <button type="submit" class="btn-cta"
                             style="width: 100%; border: none; cursor: pointer;">Register Doctor</button>
                     </form>
+<<<<<<< HEAD
                     <script>
                         function toggleSpecialization() {
                             const role = document.getElementById('doc-role').value;
@@ -318,6 +327,8 @@
                             specGroup.style.display = role === 'doctor' ? 'block' : 'none';
                         }
                     </script>
+=======
+>>>>>>> a6122a424ab0d46f018a4247225dc0a68c4f1db4
                 </div>
 
                 <div>
@@ -351,6 +362,7 @@
                         <label>Condition Summary</label>
                         <input type="text" required placeholder="Stable, awaiting results">
                     </div>
+<<<<<<< HEAD
                     <div class="input-group">
                         <label>Doctor Name</label>
                         <input type="text" id="patient-doc-name" required placeholder="Dr. John Doe">
@@ -359,6 +371,8 @@
                         <label>Doctor Email</label>
                         <input type="email" id="patient-doc-email" required placeholder="john@vitalora.com">
                     </div>
+=======
+>>>>>>> a6122a424ab0d46f018a4247225dc0a68c4f1db4
                     <button type="submit" class="btn-cta" style="width: 100%; border: none; cursor: pointer;">Admit
                         Patient</button>
                 </form>

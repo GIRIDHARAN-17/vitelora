@@ -1,0 +1,15 @@
+fastapi 
+uvicorn 
+pymongo 
+python-jose 
+passlib[argon2]
+pydantic[email]
+python-dotenv
+numpy==1.26.4
+pandas==2.2.2
+scikit-learn==1.4.2
+tensorflow==2.15.0
+joblib==1.4.2
+fastapi==0.110.2
+uvicorn[standard]==0.29.0
+matplotlib==3.8.4

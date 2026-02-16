@@ -1,3 +1,21 @@
+# Python virtual environments
+venv/
+.env/
+backend/viteloravenv/
+
+# Python cache
+__pycache__/
+*.pyc
+
+# Node
+node_modules/
+
+# OS / IDE
+.DS_Store
+Thumbs.db
+.vscode/
+.idea/
+
 venv/
 __pycache__/
 .env
