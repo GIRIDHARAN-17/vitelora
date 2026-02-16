@@ -83,26 +83,83 @@ function renderAdminView() {
     renderDoctorList();
 
     // Form Submissions
-    document.getElementById('add-doctor-form').addEventListener('submit', (e) => {
-        e.preventDefault();
-        const name = document.getElementById('doc-name').value;
-        const spec = document.getElementById('doc-spec').value;
-        const email = document.getElementById('doc-email').value;
-        const id = 'D-' + Math.floor(Math.random() * 1000 + 100);
+    document.getElementById('add-doctor-form').addEventListener('submit', async (e) => {
 
-        // In a real app, send to backend. Here, just update UI
-        doctors.push({ id, name, spec, email });
-        renderDoctorList();
-        e.target.reset();
-        alert(`User Added Successfully: ${name} (ID: ${id})`);
-    });
+    e.preventDefault();
 
-    document.getElementById('add-patient-form').addEventListener('submit', (e) => {
-        e.preventDefault();
-        alert('Patient Admitted and assigned to ID P-' + Math.floor(Math.random() * 10000));
+    const full_name = document.getElementById('doc-name').value;
+    const email = document.getElementById('doc-email').value;
+    const password = document.getElementById('doc-password').value;
+    const role = document.getElementById('doc-role').value;
+    const specialization = role === 'doctor'
+        ? document.getElementById('doc-spec').value
+        : null;
+
+    try {
+
+        const res = await axios.post(
+            "http://127.0.0.1:8000/admin_add_user",
+            {
+                full_name,
+                email,
+                password,
+                role,
+                specialization
+            },
+            {
+                headers: {
+                    Authorization: `Bearer ${localStorage.getItem("token")}`
+                }
+            }
+        );
+
+        alert(res.data.message);
         e.target.reset();
-    });
-}
+
+    } catch (err) {
+        alert(err.response?.data?.detail || "Doctor creation failed");
+    }
+});
+
+
+   document.getElementById('add-patient-form').addEventListener('submit', async (e) => {
+
+    e.preventDefault();
+
+    const full_name = e.target[0].value;
+    const patient_id = e.target[1].value || 'P-' + Math.floor(Math.random()*10000);
+    const room_no = e.target[2].value;
+    const condition = e.target[3].value;
+    const doctor_name = document.getElementById('patient-doc-name').value;
+    const doctor_email = document.getElementById('patient-doc-email').value;
+
+    try {
+
+        const res = await axios.post(
+            "http://127.0.0.1:8000/create_patient",
+            {
+                full_name,
+                patient_id,
+                room_no,
+                condition,
+                doctor_name,
+                doctor_email
+            },
+            {
+                headers: {
+                    Authorization: `Bearer ${localStorage.getItem("token")}`
+                }
+            }
+        );
+
+        alert(res.data.message);
+        e.target.reset();
+
+    } catch (err) {
+        alert(err.response?.data?.detail || "Patient creation failed");
+    }
+});
+
 
 function renderDoctorList() {
     const list = document.getElementById('doctor-list');
@@ -124,7 +181,8 @@ function renderDoctorList() {
     });
 }
 
-function showAdminSection(sectionId) {
+window.showAdminSection = function(sectionId) {
+
     document.getElementById('admin-view').classList.remove('active');
 
     if (sectionId === 'add-user') {
@@ -134,7 +192,7 @@ function showAdminSection(sectionId) {
     }
 }
 
-function showAdminMenu() {
+window.showAdminMenu = function() {
     document.querySelectorAll('.admin-section').forEach(el => el.classList.remove('active'));
     document.getElementById('admin-view').classList.add('active');
 }
@@ -153,7 +211,7 @@ function openPatientModal(patient) {
     modal.style.display = 'flex'; // Ensure flex for centering
 }
 
-function closeModal() {
+window.closeModal = function() {
     const modal = document.getElementById('patient-modal');
     modal.classList.remove('active');
     setTimeout(() => {
@@ -167,3 +225,4 @@ document.getElementById('patient-modal').addEventListener('click', (e) => {
         closeModal();
     }
 });
+}
