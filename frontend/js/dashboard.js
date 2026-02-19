@@ -30,51 +30,57 @@ document.addEventListener('DOMContentLoaded', () => {
     }
 });
 
-// Mock Data
-const patients = [
-    { id: 'P-1001', name: 'Sarah Connor', room: 'ICU-03', doctor: 'Dr. Silberman', condition: 'Critical - Viral Load High', date: '2026-02-09' },
-    { id: 'P-1024', name: 'John Rambo', room: 'Ward-B2', doctor: 'Dr. Trautman', condition: 'Stable - Recovering', date: '2026-02-08' },
-    { id: 'P-2049', name: 'Rick Deckard', room: 'Iso-01', doctor: 'Dr. Wallace', condition: 'Observation - Unknown Pathogen', date: '2026-02-10' },
-    { id: 'P-3000', name: 'Ellen Ripley', room: 'Hypersleep-A', doctor: 'Dr. Ash', condition: 'Stable - Quarantine', date: '2026-02-01' },
-];
 
-const doctors = [
-    { id: 'D-101', name: 'Dr. Silberman', spec: 'General Analysis', email: 'silberman@vitalora.com' },
-    { id: 'D-102', name: 'Dr. Trautman', spec: 'Trauma Specialist', email: 'trautman@vitalora.com' },
-    { id: 'D-103', name: 'Dr. Wallace', spec: 'Virology', email: 'wallace@vitalora.com' },
-];
+async function renderDoctorView() {
 
-function renderDoctorView() {
     const container = document.getElementById('doctor-view');
     container.classList.add('active');
 
-    patients.forEach(p => {
+    const token = localStorage.getItem("token")
+
+    const res = await axios.get(
+        "http://127.0.0.1:8000/doctor_patients",
+        {
+            headers:{
+                Authorization:"Bearer "+token
+            }
+        }
+    );
+
+    container.innerHTML=""
+
+    res.data.forEach(p => {
+
         const card = document.createElement('div');
         card.className = 'patient-card';
 
-        // Apply status class
         const conditionLower = p.condition.toLowerCase();
-        if (conditionLower.includes('critical')) {
-            card.classList.add('status-critical');
-        } else if (conditionLower.includes('observation') || conditionLower.includes('unknown')) {
-            card.classList.add('status-observation');
-        } else if (conditionLower.includes('stable')) {
-            card.classList.add('status-stable');
-        }
+
+        if(conditionLower.includes('critical'))
+            card.classList.add('status-critical')
+        else if(conditionLower.includes('stable'))
+            card.classList.add('status-stable')
+        else
+            card.classList.add('status-observation')
 
         card.innerHTML = `
-            <div class="patient-id">ID: ${p.id}</div>
+            <div class="patient-id">ID: ${p.patient_id}</div>
             <div class="patient-name">${p.name}</div>
             <div class="patient-meta">
-                <span>Room: ${p.room}</span>
-                <span>${p.condition.split(' - ')[0]}</span>
+                <span>Room: ${p.room_no}</span>
+                <span>${p.condition}</span>
             </div>
         `;
+        card.onclick = ()=>{
+    window.location.href =
+    `./patient-details.html?id=${p.patient_id}&name=${p.name}`
+}
 
-        card.addEventListener('click', () => openPatientModal(p));
+
         container.appendChild(card);
     });
 }
+
 
 function renderAdminView() {
     const container = document.getElementById('admin-view');

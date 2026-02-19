@@ -4,16 +4,19 @@ from model import *
 from database import users_collection,patient_collection
 from fastapi.middleware.cors import CORSMiddleware  
 from security import *
+from dotenv import load_dotenv
 import numpy as np
 import joblib
 import random
 from collections import deque
 from tensorflow.keras.models import load_model
 import os
-from dotenv import load_dotenv
+import csv
+import io
+
 
 load_dotenv()
-
+live_history = []   
 app = FastAPI()
 
 app.add_middleware(
@@ -33,15 +36,16 @@ scaler = joblib.load(SCALER_PATH)
 buffer = deque(maxlen=TIME_STEPS)
 
 def generate_random_vitals():
-    return [
-        random.randint(10, 30),      
-        random.randint(88, 100),     
-        random.randint(0, 1),        
-        random.randint(90, 160),  
-        random.randint(50, 140),     
-        round(random.uniform(35, 40), 1),  
-        random.randint(0, 3)         
-    ]
+    hr = np.random.randint(60,140)
+    spo2 = np.random.randint(85,100)
+    sys = np.random.randint(90,180)
+    dia = np.random.randint(60,120)
+    resp = np.random.randint(10,35)
+    temp = round(np.random.uniform(36,40),1)
+    oxygen = np.random.randint(0,10)
+    gcs = np.random.randint(3,15)
+
+    return [hr,spo2,sys,resp,temp,oxygen,gcs]        
     
 @app.get("/")
 def welcome():
@@ -64,8 +68,11 @@ def login(data: Login):
     return {
     "access_token": token,
     "token_type": "bearer",
-    "role": user["role"],
+    "role": user.get("role"),
+    "email": user.get("email"),
+    "name": user.get("name","Doctor")
 }
+
     
 
 @app.post("/admin_add_user")
@@ -108,6 +115,19 @@ def patient(data: patient, admin=Depends(require_admin)):
         "message": f"Patient {data.full_name} created successfully"
     }
     
+@app.get("/doctor_patients")
+def doctor_patients(user=Depends(verify_token)):
+
+    doctor_email = user["sub"]
+
+    patients = list(patient_collection.find(
+        {"doctor_email": doctor_email},
+        {"_id":0}
+    ))
+
+    return patients
+
+    
 @app.get("/auto_stream")
 def auto_stream():
 
@@ -126,8 +146,21 @@ def auto_stream():
 
     prediction = model.predict(seq_scaled, verbose=0)[0][0] * 10
 
-    return {
-        "latest_vitals": new_row,
-        "predicted_news_score": round(float(prediction), 2)
+    result = {
+        "hr": new_row[0],
+        "spo2": new_row[1],
+        "bp": f"{new_row[2]}/{new_row[2]-40}",
+        "resp": new_row[3],
+        "temp": new_row[4],
+        "oxygen": new_row[5],
+        "gcs": new_row[6],
+        "news": round(float(prediction),2),
+        "time": datetime.now().strftime("%H:%M:%S")
     }
-    
+    live_history.append(result)
+
+    return result
+
+
+
+

@@ -121,7 +121,7 @@ async function handleLogin() {
         
         // 2. Save user profile for UI display
         localStorage.setItem('vitalora_user', JSON.stringify({
-            email: email,
+            email:email,
             role: response.data.role
         }));
 
