@@ -1,0 +1,8 @@
+geo:
+  location: Chennai
+  radius_km: 50
+
+thresholds:
+  default: 5
+  moderate: 4
+  outbreak: 3

@@ -2,7 +2,9 @@
 from fastapi import FastAPI, HTTPException, Depends
 from model import *
 from database import users_collection,patient_collection
+from services.main_vitelora import run_vitelora_pipeline
 from fastapi.middleware.cors import CORSMiddleware  
+from services.main_vitelora import run_vitelora_pipeline
 from security import *
 from dotenv import load_dotenv
 import numpy as np
@@ -47,6 +49,19 @@ def generate_random_vitals():
 
     return [hr,spo2,sys,resp,temp,oxygen,gcs]        
     
+result = run_vitelora_pipeline(patient_data)
+
+patient_collection.update_one(
+    {"patient_id":patient_data["patient_id"]},
+    {"$set":{
+        "news2":result["news2"],
+        "risk":result["risk"],
+        "threshold":result["threshold"],
+        "outbreak":result["outbreak"],
+        "alert":result["alert"]
+    }}
+)
+
 @app.get("/")
 def welcome():
     return {"message": "Welcome to Vitelora API"}
@@ -69,7 +84,7 @@ def login(data: Login):
     "access_token": token,
     "token_type": "bearer",
     "role": user.get("role"),
-    "email": user.get("email"),
+    "email": user.get("email"),  
     "name": user.get("name","Doctor")
 }
 
